@@ -3,9 +3,55 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{B2D13FBE-5620-4C48-BB14-847A7A956708}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EF4FFEB2-1397-404E-9A6B-303065C858CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F820F7C2-4B46-4455-AE2C-031BCB82BB41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesMind.Domain", "src\SalesMind.Domain\SalesMind.Domain.csproj", "{39E0008F-38A7-4E11-A603-D8974EEB51D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesMind.Application", "src\SalesMind.Application\SalesMind.Application.csproj", "{593779B8-D551-4FBD-ACC9-79E8400F4B20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesMind.Infrastructure", "src\SalesMind.Infrastructure\SalesMind.Infrastructure.csproj", "{19BDA1CA-72BB-47BE-ADE8-7FB65FD2794F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesMind.API", "src\SalesMind.API\SalesMind.API.csproj", "{09477337-7BC1-45FC-91D1-FF5DE23EFE3B}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39E0008F-38A7-4E11-A603-D8974EEB51D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39E0008F-38A7-4E11-A603-D8974EEB51D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39E0008F-38A7-4E11-A603-D8974EEB51D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39E0008F-38A7-4E11-A603-D8974EEB51D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{593779B8-D551-4FBD-ACC9-79E8400F4B20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{593779B8-D551-4FBD-ACC9-79E8400F4B20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{593779B8-D551-4FBD-ACC9-79E8400F4B20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{593779B8-D551-4FBD-ACC9-79E8400F4B20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19BDA1CA-72BB-47BE-ADE8-7FB65FD2794F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19BDA1CA-72BB-47BE-ADE8-7FB65FD2794F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19BDA1CA-72BB-47BE-ADE8-7FB65FD2794F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19BDA1CA-72BB-47BE-ADE8-7FB65FD2794F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09477337-7BC1-45FC-91D1-FF5DE23EFE3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09477337-7BC1-45FC-91D1-FF5DE23EFE3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09477337-7BC1-45FC-91D1-FF5DE23EFE3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09477337-7BC1-45FC-91D1-FF5DE23EFE3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{39E0008F-38A7-4E11-A603-D8974EEB51D5} = {EF4FFEB2-1397-404E-9A6B-303065C858CD}
+		{593779B8-D551-4FBD-ACC9-79E8400F4B20} = {EF4FFEB2-1397-404E-9A6B-303065C858CD}
+		{19BDA1CA-72BB-47BE-ADE8-7FB65FD2794F} = {EF4FFEB2-1397-404E-9A6B-303065C858CD}
+		{09477337-7BC1-45FC-91D1-FF5DE23EFE3B} = {EF4FFEB2-1397-404E-9A6B-303065C858CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F52FA553-C726-4459-8BE6-193ED4340D92}
