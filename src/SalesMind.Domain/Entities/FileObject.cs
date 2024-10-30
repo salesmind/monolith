@@ -6,5 +6,5 @@ public class FileObject : Entity<Guid>
     public string Format { get; set; }
     public long ContentLength { get; set; }
     public DateTime CreatedAt { get; set; }
-    public DateTime? ModifiedAt { get; set; }
+    public DateTime ModifiedAt { get; set; }
 }

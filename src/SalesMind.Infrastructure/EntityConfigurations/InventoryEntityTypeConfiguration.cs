@@ -13,8 +13,10 @@ public class InventoryEntityTypeConfiguration : IEntityTypeConfiguration<Invento
         builder.Property(x => x.Name).HasColumnName("name").IsRequired(true);
         builder.Property(x => x.Code).HasColumnName("code").IsRequired(true);
         builder.Property(x => x.Description).HasColumnName("description");
+        builder.Property(x => x.Quantity).HasColumnName("quantity");
+        builder.Property(x => x.WarehouseId).HasColumnName("warehouse_id");
 
-        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp with time zone");
-        builder.Property(x => x.ModifiedAt).HasColumnName("modified_at").HasColumnType("timestamp with time zone");
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp with time zone").ValueGeneratedOnAdd().HasDefaultValueSql("now()");
+        builder.Property(x => x.ModifiedAt).HasColumnName("modified_at").HasColumnType("timestamp with time zone").ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("now()");
     }
 }

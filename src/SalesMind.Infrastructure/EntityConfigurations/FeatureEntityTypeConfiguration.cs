@@ -16,7 +16,7 @@ public class FeatureEntityTypeConfiguration : IEntityTypeConfiguration<Feature>
 
         builder.Property(x => x.CreatedBy).HasColumnName("created_by").IsRequired(true);
         builder.Property(x => x.ModifiedBy).HasColumnName("modified_by");
-        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp with time zone");
-        builder.Property(x => x.ModifiedAt).HasColumnName("modified_at").HasColumnType("timestamp with time zone");
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp with time zone").ValueGeneratedOnAdd().HasDefaultValueSql("now()");
+        builder.Property(x => x.ModifiedAt).HasColumnName("modified_at").HasColumnType("timestamp with time zone").ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("now()");
     }
 }

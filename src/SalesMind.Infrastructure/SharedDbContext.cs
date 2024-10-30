@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SalesMind.Domain.Aggregates.TenantAggregate;
 using SalesMind.Infrastructure.EntityConfigurations;
 
 namespace SalesMind.Infrastructure;
@@ -9,6 +10,7 @@ public class SharedDbContext : DbContextBase<SharedDbContext>
     {
     }
     public override string Schema => "public";
+    public DbSet<Tenant> Tenants { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

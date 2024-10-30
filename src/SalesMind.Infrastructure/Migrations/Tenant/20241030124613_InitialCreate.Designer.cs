@@ -12,7 +12,7 @@ using SalesMind.Infrastructure;
 namespace SalesMind.Infrastructure.Migrations.Tenant
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20241026153949_InitialCreate")]
+    [Migration("20241030124613_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,6 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("dev")
                 .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -28,22 +27,32 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
 
             modelBuilder.Entity("SalesMind.Domain.Aggregates.OrderAggregate.Order", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<string>("ExternalId")
+                        .HasColumnType("text")
+                        .HasColumnName("external_id");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("OrderNo")
                         .IsRequired()
@@ -57,19 +66,24 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
 
                     b.HasKey("Id");
 
-                    b.ToTable("orders", "dev");
+                    b.HasIndex("OrderNo")
+                        .IsUnique();
+
+                    b.ToTable("orders", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Aggregates.OrderAggregate.OrderItem", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<decimal>("Discount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("NUMERIC(10, 2)")
+                        .HasColumnName("discount");
 
                     b.Property<Guid?>("ProductFileId")
                         .HasColumnType("uuid")
@@ -82,7 +96,7 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("order_no");
+                        .HasColumnName("product_name");
 
                     b.Property<long>("ProductSkuId")
                         .HasColumnType("bigint")
@@ -93,19 +107,21 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                         .HasColumnName("sku_attributes");
 
                     b.Property<decimal>("UnitPrice")
-                        .HasColumnType("numeric");
+                        .HasColumnType("NUMERIC(10, 2)")
+                        .HasColumnName("unit_price");
 
                     b.Property<int>("Units")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("units");
 
-                    b.Property<Guid>("order_id")
-                        .HasColumnType("uuid");
+                    b.Property<long>("order_id")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
                     b.HasIndex("order_id");
 
-                    b.ToTable("order_items", "dev");
+                    b.ToTable("order_items", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Aggregates.ProductAggregate.Product", b =>
@@ -118,7 +134,8 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("category_id");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -126,16 +143,24 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<string>("ExternalId")
+                        .HasColumnType("text")
+                        .HasColumnName("external_id");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -149,37 +174,42 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
 
                     b.HasKey("Id");
 
-                    b.ToTable("products", "dev");
+                    b.ToTable("products", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Aggregates.ProductAggregate.ProductPicture", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("DisplayOrder")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("display_order");
 
                     b.Property<Guid>("FileId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("file_id");
 
                     b.Property<string>("Format")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("format");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
-                    b.Property<int?>("product_id")
+                    b.Property<int>("product_id")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("product_id");
 
-                    b.ToTable("ProductPicture", "dev");
+                    b.ToTable("product_pictures", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Aggregates.ProductAggregate.ProductSku", b =>
@@ -196,11 +226,11 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                         .HasColumnName("code");
 
                     b.Property<decimal>("Cost")
-                        .HasColumnType("DECIMAL(18,2)")
+                        .HasColumnType("NUMERIC(10, 2)")
                         .HasColumnName("cost");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("DECIMAL(18,2)")
+                        .HasColumnType("NUMERIC(10,2)")
                         .HasColumnName("price");
 
                     b.Property<int>("StockQuantity")
@@ -214,7 +244,7 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
 
                     b.HasIndex("product_id");
 
-                    b.ToTable("product_skus", "dev");
+                    b.ToTable("product_skus", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Aggregates.ProductAggregate.ProductSkuAttribute", b =>
@@ -241,7 +271,7 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
 
                     b.HasIndex("product_sku_id");
 
-                    b.ToTable("product_sku_attributes", "dev");
+                    b.ToTable("product_sku_attributes", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Entities.Customer", b =>
@@ -254,8 +284,10 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -266,9 +298,11 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("text")
@@ -281,7 +315,7 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
 
                     b.HasKey("Id");
 
-                    b.ToTable("customers", "dev");
+                    b.ToTable("customers", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Entities.Inventory", b =>
@@ -299,16 +333,20 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -316,14 +354,16 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                         .HasColumnName("name");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
 
                     b.Property<int>("WarehouseId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("warehouse_id");
 
                     b.HasKey("Id");
 
-                    b.ToTable("inventories", "dev");
+                    b.ToTable("inventories", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Entities.InventoryLog", b =>
@@ -341,28 +381,34 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                         .HasColumnName("change_type");
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<int>("InventoryId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("inventory_id");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Note")
                         .HasColumnType("text")
                         .HasColumnName("note");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InventoryId");
 
-                    b.ToTable("inventory_logs", "dev");
+                    b.ToTable("inventory_logs", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Entities.Store", b =>
@@ -380,16 +426,20 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -403,7 +453,7 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
 
                     b.HasKey("Id");
 
-                    b.ToTable("stores", "dev");
+                    b.ToTable("stores", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Entities.Supplier", b =>
@@ -416,8 +466,10 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -428,9 +480,11 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("text")
@@ -443,7 +497,7 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
 
                     b.HasKey("Id");
 
-                    b.ToTable("suppliers", "dev");
+                    b.ToTable("suppliers", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Entities.Warehouse", b =>
@@ -461,8 +515,10 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
@@ -472,9 +528,11 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                         .HasColumnType("text")
                         .HasColumnName("location");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -483,15 +541,15 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
 
                     b.HasKey("Id");
 
-                    b.ToTable("warehouses", "dev");
+                    b.ToTable("warehouses", (string)null);
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Aggregates.OrderAggregate.Order", b =>
                 {
                     b.OwnsOne("SalesMind.Domain.Aggregates.OrderAggregate.OrderAddress", "Address", b1 =>
                         {
-                            b1.Property<Guid>("OrderId")
-                                .HasColumnType("uuid");
+                            b1.Property<long>("OrderId")
+                                .HasColumnType("bigint");
 
                             b1.Property<string>("City")
                                 .HasColumnType("text")
@@ -515,7 +573,7 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("orders", "dev");
+                            b1.ToTable("orders");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
@@ -537,7 +595,9 @@ namespace SalesMind.Infrastructure.Migrations.Tenant
                 {
                     b.HasOne("SalesMind.Domain.Aggregates.ProductAggregate.Product", null)
                         .WithMany("ProductPictures")
-                        .HasForeignKey("product_id");
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SalesMind.Domain.Aggregates.ProductAggregate.ProductSku", b =>

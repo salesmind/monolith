@@ -12,8 +12,7 @@ internal class StoreEntityTypeConfiguration : IEntityTypeConfiguration<Store>
         builder.Property(x => x.Code).HasColumnName("code").IsRequired(true);
         builder.Property(x => x.Description).HasColumnName("description");
         builder.Property(x => x.Status).HasColumnName("status").HasConversion<string>().IsRequired(true);
-
-        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp with time zone");
-        builder.Property(x => x.ModifiedAt).HasColumnName("modified_at").HasColumnType("timestamp with time zone");
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp with time zone").ValueGeneratedOnAdd().HasDefaultValueSql("now()");
+        builder.Property(x => x.ModifiedAt).HasColumnName("modified_at").HasColumnType("timestamp with time zone").ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("now()");
     }
 }

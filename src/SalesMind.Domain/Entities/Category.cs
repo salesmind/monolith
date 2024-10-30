@@ -8,5 +8,5 @@ public class Category : Entity<int>
     public int DisplayOrder { get; set; }
     public bool IsPublished { get; set; }
     public DateTime CreatedAt { get; set; }
-    public DateTime? ModifiedAt { get; set; }
+    public DateTime ModifiedAt { get; set; }
 }

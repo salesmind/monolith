@@ -12,7 +12,7 @@ using SalesMind.Infrastructure;
 namespace SalesMind.Infrastructure.Migrations.Shared
 {
     [DbContext(typeof(SharedDbContext))]
-    [Migration("20241026153309_InitialCreate")]
+    [Migration("20241030124640_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -34,8 +34,10 @@ namespace SalesMind.Infrastructure.Migrations.Shared
                         .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -63,9 +65,11 @@ namespace SalesMind.Infrastructure.Migrations.Shared
                         .HasColumnType("text")
                         .HasColumnName("level");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("text")
@@ -105,8 +109,10 @@ namespace SalesMind.Infrastructure.Migrations.Shared
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
@@ -118,9 +124,11 @@ namespace SalesMind.Infrastructure.Migrations.Shared
                     b.Property<bool>("IsPublished")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -145,8 +153,10 @@ namespace SalesMind.Infrastructure.Migrations.Shared
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -173,9 +183,11 @@ namespace SalesMind.Infrastructure.Migrations.Shared
                         .HasColumnType("text")
                         .HasColumnName("key");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("text")
@@ -232,17 +244,21 @@ namespace SalesMind.Infrastructure.Migrations.Shared
                         .HasColumnName("content_length");
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Format")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("format");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
+                        .HasColumnName("modified_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()

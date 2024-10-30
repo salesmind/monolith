@@ -6,6 +6,6 @@ public class Inventory : Entity<int>
     public string Description { get; set; }
     public int Quantity { get; set; }
     public DateTime CreatedAt { get; set; }
-    public DateTime? ModifiedAt { get; set; }
+    public DateTime ModifiedAt { get; set; }
     public int WarehouseId { get; set; }
 }

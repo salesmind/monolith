@@ -12,8 +12,8 @@ public class ProductSkuEntityTypeConfiguration : IEntityTypeConfiguration<Produc
         builder.Property(s => s.Id).HasColumnName("id");
 
         builder.Property(x => x.Code).HasColumnName("code");
-        builder.Property(x => x.Cost).HasColumnName("cost").HasColumnType("DECIMAL(18,2)");
-        builder.Property(x => x.Price).HasColumnName("price").HasColumnType("DECIMAL(18,2)");
+        builder.Property(x => x.Cost).HasColumnName("cost").HasColumnType("NUMERIC(10, 2)");
+        builder.Property(x => x.Price).HasColumnName("price").HasColumnType("NUMERIC(10,2)");
         builder.Property(x => x.StockQuantity).HasColumnName("stock_quantity");
 
         builder.HasMany(s => s.ProductSkuAttributes).WithOne().HasForeignKey("product_sku_id");

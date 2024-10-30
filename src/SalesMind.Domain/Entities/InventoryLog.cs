@@ -7,7 +7,7 @@ public class InventoryLog : Entity<long>
     public int Quantity { get; set; }
     public InventoryChangeType ChangeType { get; set; }
     public DateTime CreatedAt { get; set; }
-    public DateTime? ModifiedAt { get; set; }
+    public DateTime ModifiedAt { get; set; }
     public Inventory Inventory { get; set; }
     public int InventoryId { get; set; }
 }

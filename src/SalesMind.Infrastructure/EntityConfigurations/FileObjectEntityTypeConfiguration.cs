@@ -12,7 +12,7 @@ public class FileObjectEntityTypeConfiguration : IEntityTypeConfiguration<FileOb
         builder.Property(x => x.Name).HasColumnName("name").IsRequired(true);
         builder.Property(x => x.Format).HasColumnName("format").IsRequired(true);
         builder.Property(x => x.ContentLength).HasColumnName("content_length");
-        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp with time zone");
-        builder.Property(x => x.ModifiedAt).HasColumnName("modified_at").HasColumnType("timestamp with time zone");
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").HasColumnType("timestamp with time zone").ValueGeneratedOnAdd().HasDefaultValueSql("now()");
+        builder.Property(x => x.ModifiedAt).HasColumnName("modified_at").HasColumnType("timestamp with time zone").ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("now()");
     }
 }
